@@ -1,0 +1,61 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.python-version
+.venv/
+venv/
+myenv/
+.ipynb_checkpoints/
+
+# Tool caches and reports
+.coverage
+htmlcov/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.cache/
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+
+# Editors and operating systems
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Private or reconstructed data
+data/raw/
+data/processed/
+data/conference/
+analysis_scripts/
+*.parquet
+
+# Generated experiment output
+artifacts/*
+!artifacts/conference/
+artifacts/conference/*
+!artifacts/conference/reported_metrics.json
+!artifacts/portfolio/
+artifacts/portfolio/*
+!artifacts/portfolio/metrics.json
+!artifacts/portfolio/robustness.json
+!artifacts/portfolio/run_metadata.json
+results/
+saved_models/
+
+# Keep intentionally curated portfolio assets
+!docs/assets/
+!docs/assets/*.png
+!docs/assets/*.svg
+
+# Temporary files
+*.log
+*.tmp
+*.swp
+*~
