@@ -1,0 +1,23 @@
+{
+    "rf": {
+        "n_estimators": 82,
+        "max_depth": 8,
+        "min_samples_split": 27,
+        "min_samples_leaf": 10,
+        "max_features": "sqrt"
+    },
+    "lstm": {
+        "sequence_length": 72,
+        "learning_rate": 0.009175744999229598,
+        "dropout_rate": 0.3737043035600437,
+        "n_units_1": 128,
+        "n_units_2": 64
+    },
+    "gru": {
+        "sequence_length": 48,
+        "learning_rate": 0.0008783087279134427,
+        "dropout_rate": 0.49143379231925255,
+        "n_units_1": 64,
+        "n_units_2": 128
+    }
+}
