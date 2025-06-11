@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "redistribution_policy": "fail-closed",
+  "sources": [
+    {
+      "name": "Rekt",
+      "url": "https://rekt.news/leaderboard/",
+      "purpose": "incident reports and reported loss amounts",
+      "redistribution": "not bundled; verify current source terms before redistribution"
+    },
+    {
+      "name": "DeFiLlama",
+      "url": "https://defillama.com/docs/api",
+      "purpose": "protocol metadata, chains, and lineage candidates",
+      "redistribution": "not bundled; records are acquired by the researcher"
+    },
+    {
+      "name": "SlowMist Hacked",
+      "url": "https://hacked.slowmist.io/",
+      "purpose": "manual incident verification",
+      "redistribution": "not bundled; used only as an attributed verification source"
+    }
+  ],
+  "generated_samples": [
+    {
+      "path": "data/sample/incidents.csv",
+      "type": "synthetic test fixture",
+      "generator": "scripts/generate_demo_data.py",
+      "seed": 42,
+      "license": "MIT"
+    }
+  ]
+}
+
