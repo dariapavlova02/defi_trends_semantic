@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="260" viewBox="0 0 1200 260" role="img" aria-labelledby="title desc">
+  <title id="title">Point-in-time DeFi incident severity workflow</title>
+  <desc id="desc">Incident and graph data pass through an availability gate, feature isolation, a chronological split, and evaluation.</desc>
+  <rect width="1200" height="260" rx="24" fill="#07111f"/>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <g font-family="Inter,Arial,sans-serif">
+    <g transform="translate(42 50)">
+      <rect width="190" height="150" rx="16" fill="#0f2239" stroke="#334155"/>
+      <text x="95" y="44" text-anchor="middle" fill="#f8fafc" font-size="20" font-weight="700">Source data</text>
+      <text x="95" y="82" text-anchor="middle" fill="#94a3b8" font-size="15">Incidents</text>
+      <text x="95" y="108" text-anchor="middle" fill="#94a3b8" font-size="15">Protocol graph</text>
+    </g>
+    <path d="M240 125 H300" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+    <g transform="translate(310 50)">
+      <rect width="210" height="150" rx="16" fill="#102a2c" stroke="#14b8a6"/>
+      <text x="105" y="40" text-anchor="middle" fill="#f8fafc" font-size="20" font-weight="700">Point-in-time gate</text>
+      <text x="105" y="79" text-anchor="middle" fill="#99f6e4" font-size="15">available_at ≤ incident</text>
+      <text x="105" y="109" text-anchor="middle" fill="#94a3b8" font-size="14">Unknown timing → exclude</text>
+    </g>
+    <path d="M530 125 H590" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+    <g transform="translate(600 50)">
+      <rect width="210" height="150" rx="16" fill="#111d36" stroke="#3b82f6"/>
+      <text x="105" y="40" text-anchor="middle" fill="#f8fafc" font-size="20" font-weight="700">Feature isolation</text>
+      <text x="105" y="78" text-anchor="middle" fill="#bfdbfe" font-size="15">Baseline</text>
+      <text x="105" y="105" text-anchor="middle" fill="#bfdbfe" font-size="15">Baseline + graph</text>
+    </g>
+    <path d="M820 125 H880" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+    <g transform="translate(890 50)">
+      <rect width="265" height="150" rx="16" fill="#211a35" stroke="#8b5cf6"/>
+      <text x="132" y="40" text-anchor="middle" fill="#f8fafc" font-size="20" font-weight="700">Temporal evaluation</text>
+      <text x="132" y="78" text-anchor="middle" fill="#ddd6fe" font-size="15">Chronological holdout</text>
+      <text x="132" y="105" text-anchor="middle" fill="#ddd6fe" font-size="15">Expanding-window CV</text>
+    </g>
+  </g>
+</svg>

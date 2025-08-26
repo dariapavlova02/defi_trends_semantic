@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the conference paper below."
+title: "DeFi Security Knowledge Graph"
+type: software
+version: 1.0.0
+date-released: 2026-09-04
+license: MIT
+repository-code: "https://github.com/dariapavlova02/defi-security-knowledge-graph"
+authors:
+  - family-names: Pavlova
+    given-names: Daria
+    email: daria.pavlova@mps.si
+preferred-citation:
+  type: conference-paper
+  title: "Graph-Based Feature Engineering for DeFi Security Incident Severity Prediction"
+  doi: "10.70314/is.2025.sikdd.6"
+  year: 2025
+  conference:
+    name: "Information Society 2025: Slovenian KDD Conference"
+  authors:
+    - family-names: Pavlova
+      given-names: Daria
+    - family-names: Novalija
+      given-names: Inna
+    - family-names: Mladenić
+      given-names: Dunja
+
