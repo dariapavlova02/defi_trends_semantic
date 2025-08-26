@@ -1,0 +1,100 @@
+{
+  "dataset": {
+    "date_end": "2025-06-10",
+    "date_start": "2011-06-13",
+    "rows": 1608,
+    "split_date": "2023-07-28",
+    "test_rows": 402,
+    "train_rows": 1206
+  },
+  "features": {
+    "baseline": [
+      "year",
+      "month",
+      "day_of_week",
+      "incident_type",
+      "target_type",
+      "chain"
+    ],
+    "graph_excluded": {
+      "is_forked_from_parent": "feature has no values",
+      "parent_fork_children_count": "feature has no values",
+      "protocol_chains_count": "feature has no values"
+    },
+    "graph_included": [
+      "protocol_past_events_count"
+    ]
+  },
+  "holdout": {
+    "baseline": {
+      "auc": 0.823014,
+      "confusion_matrix": [
+        [
+          255,
+          35
+        ],
+        [
+          57,
+          55
+        ]
+      ],
+      "f1": 0.544554,
+      "precision": 0.611111,
+      "recall": 0.491071
+    },
+    "relative_auc_change_pct": -0.774,
+    "semantic": {
+      "auc": 0.816641,
+      "confusion_matrix": [
+        [
+          260,
+          30
+        ],
+        [
+          63,
+          49
+        ]
+      ],
+      "f1": 0.513089,
+      "precision": 0.620253,
+      "recall": 0.4375
+    }
+  },
+  "profile": "portfolio",
+  "profile_description": "Leakage-aware rerun using only features available by incident time.",
+  "random_seed": 42,
+  "schema_version": 1,
+  "target": {
+    "severity_quantile": 0.75,
+    "test_positive_rate": 0.278607,
+    "threshold_scope": "training",
+    "threshold_usd": 2100000.0
+  },
+  "task_label": "point-in-time incident severity prediction",
+  "temporal_cv": {
+    "baseline": {
+      "auc_mean": 0.77542,
+      "auc_std": 0.090425,
+      "fold_auc": [
+        0.659632,
+        0.699319,
+        0.826522,
+        0.913502,
+        0.778125
+      ],
+      "valid_folds": 5
+    },
+    "semantic": {
+      "auc_mean": 0.78678,
+      "auc_std": 0.074442,
+      "fold_auc": [
+        0.691522,
+        0.730809,
+        0.819489,
+        0.906901,
+        0.785179
+      ],
+      "valid_folds": 5
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "profile": "portfolio",
+  "runs": {
+    "q70": {
+      "baseline_auc": 0.837829,
+      "relative_auc_change_pct": 0.232,
+      "semantic_auc": 0.839771,
+      "threshold_usd": 1350000.0
+    },
+    "q75": {
+      "baseline_auc": 0.823014,
+      "relative_auc_change_pct": -0.774,
+      "semantic_auc": 0.816641,
+      "threshold_usd": 2100000.0
+    },
+    "q80": {
+      "baseline_auc": 0.8125,
+      "relative_auc_change_pct": -0.929,
+      "semantic_auc": 0.804953,
+      "threshold_usd": 3650000.0
+    }
+  },
+  "schema_version": 1
+}

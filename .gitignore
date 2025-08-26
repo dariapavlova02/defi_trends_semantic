@@ -45,7 +45,6 @@ artifacts/conference/*
 artifacts/portfolio/*
 !artifacts/portfolio/metrics.json
 !artifacts/portfolio/robustness.json
-!artifacts/portfolio/run_metadata.json
 results/
 saved_models/
 

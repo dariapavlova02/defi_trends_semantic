@@ -1,0 +1,36 @@
+{
+  "dataset": {
+    "incidents": 1608,
+    "non_severe": 1206,
+    "severe": 402,
+    "time_span": "2020-2025"
+  },
+  "holdout": {
+    "baseline": {
+      "auc": 0.598,
+      "f1": 0.384,
+      "precision": 0.341,
+      "recall": 0.44
+    },
+    "relative_auc_change_pct": 31.6,
+    "semantic": {
+      "auc": 0.787,
+      "f1": 0.48,
+      "precision": 0.49,
+      "recall": 0.47
+    }
+  },
+  "provenance": {
+    "doi": "10.70314/is.2025.sikdd.6",
+    "paper_url": "https://aile3.ijs.si/dunja/SiKDD2025/Papers/IS2024_-_SIKDD_2025_paper_6.pdf",
+    "status": "reported in the 2025 conference paper; not the corrected portfolio rerun"
+  },
+  "schema_version": 1,
+  "temporal_cv": {
+    "baseline_auc_mean": 0.629,
+    "baseline_auc_std": 0.036,
+    "semantic_auc_mean": 0.809,
+    "semantic_auc_std": 0.027
+  }
+}
+
