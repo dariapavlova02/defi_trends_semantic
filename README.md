@@ -1,30 +1,50 @@
-<p align="center">
-  <img src="docs/assets/hero.png" alt="DeFi Security Knowledge Graph" width="100%">
-</p>
-
 # DeFi Security Knowledge Graph
 
 [![CI](https://github.com/dariapavlova02/defi-security-knowledge-graph/actions/workflows/ci.yml/badge.svg)](https://github.com/dariapavlova02/defi-security-knowledge-graph/actions/workflows/ci.yml)
 [![Python 3.11–3.12](https://img.shields.io/badge/python-3.11%E2%80%933.12-3776AB)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-0F766E)](LICENSE)
-[![DOI](https://img.shields.io/badge/DOI-10.70314%2Fis.2025.sikdd.6-0F172A)](https://doi.org/10.70314/is.2025.sikdd.6)
 
-A leakage-aware re-evaluation of graph-derived context for DeFi security incident severity.
-The project combines incident records, protocol relationships, point-in-time feature engineering,
-and gradient-boosted models while keeping reported conference results separate from a corrected,
-reproducible portfolio evaluation.
+Evaluates whether graph-derived protocol context improves DeFi incident severity classification.
+Compares baseline and graph-enriched LightGBM models using chronological validation.
 
-## Why this repository is different
+[Paper](https://doi.org/10.70314/is.2025.sikdd.6) ·
+[Methodology](docs/METHODOLOGY.md) · [Reproduce](docs/REPRODUCIBILITY.md) · [Data](docs/DATA.md)
 
-The 2025 conference paper reported a substantial benefit from semantic graph features. A later
-reproducibility audit found that three structural graph features did not carry timestamps proving
-they were known before each incident. The portfolio profile therefore excludes them and reruns the
-experiment with a chronological split, a training-only severity threshold, and temporal
-cross-validation.
+## Quick start
 
-The corrected result is less flattering, but more useful: one timestamp-safe graph feature improves
-mean temporal-CV AUC slightly, while it does not improve the final chronological holdout. This
-repository treats that discrepancy as a result rather than hiding it.
+Requires Python 3.11–3.12 and [uv](https://docs.astral.sh/uv/getting-started/installation/).
+
+```bash
+git clone https://github.com/dariapavlova02/defi-security-knowledge-graph.git
+cd defi-security-knowledge-graph
+uv sync --all-extras --locked
+make demo
+```
+
+The demo uses an explicitly synthetic test fixture and needs no credentials or Neo4j.
+Outputs are saved to `artifacts/demo/`; demo metrics are not research results.
+For the real-data rerun and optional Neo4j setup, see [Reproducibility](docs/REPRODUCIBILITY.md).
+
+## How it works
+
+```mermaid
+flowchart TD
+    data[Incident dataset] --> base[Temporal and categorical features]
+    data --> graph_features[Eligible graph features]
+    base --> baseline[Baseline model]
+    base --> enriched[Graph-enriched model]
+    graph_features --> enriched
+    baseline --> evaluation[Chronological evaluation]
+    enriched --> evaluation
+```
+
+- Both models use the same LightGBM configuration and baseline inputs.
+- Graph features require an `available_at` timestamp no later than the incident timestamp.
+- Severe loss is defined by the training-period 75th percentile.
+- Evaluation uses a chronological holdout and five expanding-window validation folds.
+
+Neo4j is optional for the model rerun. See [Methodology](docs/METHODOLOGY.md) for feature definitions
+and [Data](docs/DATA.md) for the input schema and provenance policy.
 
 ## Results
 
@@ -40,93 +60,41 @@ feature is the count of strictly earlier incidents for the same protocol.
 | Graph-enriched | 0.817 | 0.513 | 0.620 | 0.438 | 0.787 ± 0.074 |
 <!-- portfolio-metrics:end -->
 
-At the primary 75th-percentile threshold, graph enrichment changes holdout AUC by **−0.774%**.
-Threshold sensitivity is mixed: `+0.232%` at the 70th percentile, `−0.774%` at the 75th, and
-`−0.929%` at the 80th. Machine-readable evidence is committed in
-[`artifacts/portfolio/metrics.json`](artifacts/portfolio/metrics.json) and
-[`artifacts/portfolio/robustness.json`](artifacts/portfolio/robustness.json).
+Graph enrichment did not improve the chronological holdout: AUC changed by `−0.774%`.
+Mean temporal-CV AUC was slightly higher, but the result was not consistent across evaluations.
+See the committed [metrics](artifacts/portfolio/metrics.json),
+[threshold sensitivity](artifacts/portfolio/robustness.json), and
+[additional evaluation figure](docs/METHODOLOGY.md#evaluation-figure).
 
-<p align="center">
-  <img src="docs/assets/portfolio_model_comparison.png" alt="Corrected portfolio model comparison" width="48%">
-  <img src="docs/assets/portfolio_roc_curves.png" alt="Corrected portfolio ROC curves" width="43%">
-</p>
+![Baseline and graph-enriched model comparison on the corrected portfolio evaluation](docs/assets/portfolio_model_comparison.png)
 
 ### Reported conference result
 
 The paper reported AUC increasing from `0.598` to `0.787` (`+31.6%`) and F1 from `0.384` to
 `0.480`. These values are preserved as **reported results**, not presented as the corrected rerun.
-See the [official paper](https://aile3.ijs.si/dunja/SiKDD2025/Papers/IS2024_-_SIKDD_2025_paper_6.pdf),
-[DOI](https://doi.org/10.70314/is.2025.sikdd.6), and
-[`reported_metrics.json`](artifacts/conference/reported_metrics.json).
+See the [paper](https://aile3.ijs.si/dunja/SiKDD2025/Papers/IS2024_-_SIKDD_2025_paper_6.pdf) and
+[reported metrics](artifacts/conference/reported_metrics.json).
 
-## Method
+## Limitations
 
-<p align="center">
-  <img src="docs/assets/methodology.svg" alt="Point-in-time experiment workflow" width="92%">
-</p>
+- Three structural graph features are excluded from the corrected evaluation because their
+  historical availability is undocumented. The rerun does not evaluate the full original graph.
+- Public incident coverage is incomplete and reported losses can be noisy or revised.
+- Raw source records are not redistributed: rights have not been established. Reproducing the
+  full experiment requires a separately obtained source export.
+- This is a research artifact, not a deployed risk-scoring or financial decision system.
 
-- **Baseline:** year, month, day of week, incident type, target type, and chain.
-- **Graph-enriched:** baseline plus graph facts whose `available_at` timestamp is not later than the
-  incident date.
-- **Target:** loss above the 75th percentile computed from the training period only.
-- **Evaluation:** chronological 75/25 holdout and five expanding-window temporal folds.
-- **Fail-closed rule:** without timestamped graph facts, the code refuses to make predictive claims.
-
-The complete protocol and limitations are documented in [Methodology](docs/METHODOLOGY.md).
-
-## Quick start
-
-```bash
-git clone https://github.com/dariapavlova02/defi-security-knowledge-graph.git
-cd defi-security-knowledge-graph
-uv sync --all-extras
-make demo
-```
-
-`make demo` uses a clearly labelled synthetic fixture and requires neither credentials nor Neo4j.
-It writes `metrics.json`, `run_metadata.json`, and two figures to `artifacts/demo/`.
-
-To prepare a private source export and run the corrected experiment:
-
-```bash
-uv run python -m defi_security data build --input /path/to/incidents.json
-make reproduce
-```
-
-See [Data](docs/DATA.md) for the schema and provenance policy and
-[Reproducibility](docs/REPRODUCIBILITY.md) for all profiles and commands.
-
-## Engineering highlights
-
-- Installable `src/` package with one CLI for data preparation, experiments, and Neo4j loading.
-- Deterministic LightGBM pipeline with isolated baseline and graph feature sets.
-- Point-in-time availability gate and chronological validation.
-- Idempotent async Neo4j upserts with no default credentials.
-- Ruff, pytest, 80% coverage gate, dependency audit, and CI on Python 3.11 and 3.12.
-- Data provenance manifest and fail-closed redistribution policy.
-
-## Repository map
-
-```text
-src/defi_security/       reusable data, modeling, reporting, and Neo4j code
-data/sample/             explicit synthetic fixture for smoke tests
-artifacts/               selected machine-readable research evidence
-docs/                    methodology, data policy, and reproduction guide
-tests/                   unit, integration, and regression tests
-scripts/                 deterministic fixture and portfolio-asset generators
-```
-
-## Research context
+## References
 
 This repository accompanies **Graph-Based Feature Engineering for DeFi Security Incident Severity
 Prediction**, presented at Slovenian KDD / Information Society 2025 by Daria Pavlova, Inna Novalija,
 and Dunja Mladenić.
 
-The software is a research artifact, not a deployed risk-scoring or financial decision system.
-Public incident reporting is incomplete, loss values are noisy, and point-in-time protocol metadata
-remains the principal limitation.
+DOI: [10.70314/is.2025.sikdd.6](https://doi.org/10.70314/is.2025.sikdd.6).
+Machine-readable citation: [CITATION.cff](CITATION.cff).
 
-## Citation
+<details>
+<summary>BibTeX</summary>
 
 ```bibtex
 @inproceedings{pavlova2025defi,
@@ -137,6 +105,8 @@ remains the principal limitation.
   doi={10.70314/is.2025.sikdd.6}
 }
 ```
+
+</details>
 
 Software: Daria Pavlova. Paper: Daria Pavlova, Inna Novalija, and Dunja Mladenić.
 Released under the [MIT License](LICENSE).

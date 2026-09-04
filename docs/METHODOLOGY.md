@@ -54,3 +54,9 @@ corrected holdout does not demonstrate improvement from the currently timestamp-
 Temporal CV suggests a small mean improvement, but its variance and threshold sensitivity preclude a
 strong predictive claim.
 
+## Evaluation figure
+
+ROC curves for the corrected portfolio chronological holdout. Machine-readable results are
+available in [metrics.json](../artifacts/portfolio/metrics.json).
+
+![Baseline and graph-enriched ROC curves on the corrected portfolio holdout](assets/portfolio_roc_curves.png)
